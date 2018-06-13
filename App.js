@@ -14,13 +14,15 @@ import {
   Image,
   View,ImageBackground,
   SectionList,Button,
-  TouchableWithoutFeedback,
   TouchableHighlight,
   FlatList,
   StatusBar,AsyncStorage,
-  TextInput,DeviceInfo
+  TextInput,DeviceInfo,Alert
 } from 'react-native';
 import moment from 'moment';
+
+import FadeInView from './components/Demos';
+
 let times = moment().format('YYYY MM DD')
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
@@ -71,15 +73,13 @@ export default class App extends Component{
         }
     ];
     return(
-      <TouchableWithoutFeedback onPress={()=> {navigate('NoteDetail',{'noteId':item.id,callback:()=>{
-          console.log('callback')
-          this.getList();
+      <View>
+        <TouchableHighlight onPress={()=> {navigate('NoteList',{callback:()=>{
+          console.log('Home')
         }})} }>
-        <View style={styles.contList}>
-          <Text style={styles.key}>{item.title}</Text>
-          <Text style={styles.val}  numberOfLines={1}>{item.val}</Text>  
-        </View>
-      </TouchableWithoutFeedback>
+          <Text>日记</Text>
+        </TouchableHighlight>
+      </View>
     )
   }
   addNote(){
@@ -90,7 +90,16 @@ export default class App extends Component{
     }).then(ret => {
       // 如果找到数据，则在then方法中返回
       console.log(ret,'-----ddd');
-      alert('每日一条哦~')
+      Alert.alert(
+        'O~O',
+        '每日只可记录一条',
+        [
+          // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+          // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
     }).catch(err => {
       // 如果没有找到数据且没有sync方法，
       // 或者有其他异常，则在catch中返回
@@ -110,19 +119,9 @@ export default class App extends Component{
     }
     return (
         <View style={styles.container}>
-          <View style={{width:Dimensions.get('window').width, //窗口宽度
-            justifyContent:'center',
-            alignItems:'center',
-            position:'absolute', //定位
-            zIndex:2,
-            bottom:40}}
-          >
-            <TouchableHighlight style={styles.create} underlayColor="#e25259" onPress={this.addNote}>
-              <Text style={styles.jia}>
-                +
-              </Text>
-            </TouchableHighlight>
-          </View>
+          <FadeInView style={{width: 250, height: 50, backgroundColor: 'powderblue'}}>
+            <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Fading in</Text>
+          </FadeInView>
           <View style={styles.content}>
             <FlatList data={this.state.list}
               renderItem={({item}) => this.showList(item)}

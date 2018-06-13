@@ -4,11 +4,12 @@ import { createStackNavigator } from 'react-navigation';
 import moment from 'moment';
 
 import HomeScreen from '../App';
+import NoteList from '../components/diary/NoteList';
 import WriteScreen from '../components/diary/Write';
 import NoteDetail from '../components/diary/NoteDetail'
+// import Demos from '../components/Demos'
 
 let times = moment().format('YYYY MM DD');
-
 
 const headerStyle = {
     elevation: 0,
@@ -23,7 +24,7 @@ const headerLeft = ({navigation},headerLeft)=>{
         <TouchableOpacity onPress={()=>{goBack();navigation.state.params.callback();}} style={{width:20,height:20,marginRight: 10,justifyContent:'center'}}>
             <Image style={{width:16,height:16,marginLeft: 10}} source={require('../images/back.png')} />
         </TouchableOpacity>
-    ):headerLeft=="close"?( // 设置返回按钮样式
+    ):headerLeft=="close"?( // 设置关闭按钮样式
         <TouchableOpacity onPress={()=>{goBack();navigation.state.params.callback();}} style={{width:24,height:24,marginRight: 10,justifyContent:'center'}}>
             <Image style={{width:24,height:24,marginLeft: 10}} source={require('../images/close.png')} />
         </TouchableOpacity>
@@ -69,6 +70,11 @@ export const SimpleApp = createStackNavigator({
         headerTitle: '点滴',headerBackTitle:null,
         headerStyle:headerStyle
     }},
+    // Demos: {
+    //     screen: Demos,
+    //     path:'demos',
+    //     navigationOptions:({navigation}) => StackOptions({navigation},'',true,headerLeft({navigation},'back'))
+    // },
     Write: { // diary
         screen: WriteScreen,
         path:'write',
@@ -76,8 +82,13 @@ export const SimpleApp = createStackNavigator({
     },
     NoteDetail: {
         screen: NoteDetail,
-        path:'detail',
+        path:'noteDetail',
         navigationOptions:({navigation}) => StackOptions({navigation},'',true,headerLeft({navigation},'back'),headerRight({navigation},'update',navigation.state.params.Visible))
+    },
+    NoteList: {
+        screen: NoteList,
+        path:'noteList',
+        navigationOptions:({navigation}) => StackOptions({navigation},'点滴日记',true,headerLeft({navigation},'back'))
     }
 },{
     headerMode: 'screen',
