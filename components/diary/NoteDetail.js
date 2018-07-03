@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet,AsyncStorage,ScrollView,Modal,Image,TouchableOpacity,TextInput } from 'react-native';
+import { View, Text, StyleSheet,AsyncStorage,ScrollView,Modal,Image,TouchableWithoutFeedback,TextInput } from 'react-native';
 import moment from 'moment';
+import {isIphoneX} from '../ScreenUtil.js'
 
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
 let times = moment().format('YYYY MM DD');
-
+var ScreenWidth = Dimensions.get('window').width;
+var ScreenHeight = Dimensions.get('window').height;
+var ScreenScale = Dimensions.get('window').scale;
 
 export default class detail extends Component {
     constructor(props){
@@ -68,18 +71,17 @@ export default class detail extends Component {
                     animationType={"slide"}
                     transparent={false}
                     visible={this.state.modalVisible}
-                    onRequestClose={() => {alert("Modal has been closed.")}}
                     >
-                    <View style={{marginTop: 32}}>
+                    <View style={{marginTop: isIphoneX()?55:33}}>
                         <View style={{flex: 1,
                             flexDirection: 'row',
                             justifyContent: 'space-between',
                             height:50
                         }}>
                             <View style={{width: 50, height: 50}}>
-                                <TouchableOpacity onPress={()=>{this.setModalVisible(!this.state.modalVisible)}} style={{width:24,height:24,marginRight: 10,justifyContent:'center'}}>
+                                <TouchableWithoutFeedback onPress={()=>{this.setModalVisible(!this.state.modalVisible)}} style={{width:24,height:24,marginRight: 10,justifyContent:'center'}}>
                                     <Image style={{width:24,height:24,marginLeft: 15}} source={require('../../images/close.png')} />
-                                </TouchableOpacity>
+                                </TouchableWithoutFeedback>
                             </View>
                             <View style={{height: 50}}>
                                 <Text style={{fontSize:17,fontWeight:'500'}}>
@@ -87,9 +89,9 @@ export default class detail extends Component {
                                 </Text>
                             </View>
                             <View style={{width: 50, height: 50}} >
-                                <TouchableOpacity style={{marginRight: 10}} onPress={()=>{this.save()}}>
+                                <TouchableWithoutFeedback style={{marginRight: 10}} onPress={()=>{this.save()}}>
                                     <Image style={{width:20,height:20,marginLeft: 10}} source={require('../../images/check.png')} />
-                                </TouchableOpacity>
+                                </TouchableWithoutFeedback>
                             </View>
                         </View>
                         <View style={{marginTop: 20,padding:20}}>

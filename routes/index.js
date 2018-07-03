@@ -7,11 +7,15 @@ import HomeScreen from '../App';
 import NoteList from '../components/diary/NoteList';
 import WriteScreen from '../components/diary/Write';
 import NoteDetail from '../components/diary/NoteDetail'
-// import Demos from '../components/Demos'
+
+import AddPhoto from '../components/photoWall/AddPhoto';
+import PhotoDetail from '../components/photoWall/PhotoDetail';
+import PhotoList from '../components/photoWall/PhotoList'
 
 let times = moment().format('YYYY MM DD');
 
 const headerStyle = {
+    backgroundColor:'#fbfbfb',
     elevation: 0,
     borderBottomWidth: 0,
     paddingLeft: 10,
@@ -33,7 +37,7 @@ const headerLeft = ({navigation},headerLeft)=>{
 
 const headerRight = ({navigation},headerRight,visible)=>{
     console.log(navigation.state.params.noteId,'------visible')
-    if(navigation.state.params.noteId != moment(times,'YYYY MM DD').unix()&&headerRight == 'update'){
+    if(navigation.state.params.noteId != moment(times,'YYYY MM DD').unix()&&headerRight == 'update'&&visible){
         return null
     }else{
         let {goBack} = navigation;
@@ -67,14 +71,8 @@ const StackOptions = ({navigation},headerTitle,headerBackTitle,headerLeft,header
 
 export const SimpleApp = createStackNavigator({
     Home: { screen: HomeScreen,path: 'home',navigationOptions:{
-        headerTitle: '点滴',headerBackTitle:null,
-        headerStyle:headerStyle
+        header:null
     }},
-    // Demos: {
-    //     screen: Demos,
-    //     path:'demos',
-    //     navigationOptions:({navigation}) => StackOptions({navigation},'',true,headerLeft({navigation},'back'))
-    // },
     Write: { // diary
         screen: WriteScreen,
         path:'write',
@@ -83,13 +81,29 @@ export const SimpleApp = createStackNavigator({
     NoteDetail: {
         screen: NoteDetail,
         path:'noteDetail',
-        navigationOptions:({navigation}) => StackOptions({navigation},'',true,headerLeft({navigation},'back'),headerRight({navigation},'update',navigation.state.params.Visible))
+        navigationOptions:({navigation}) => StackOptions({navigation},'',true,headerLeft({navigation},'back'),headerRight({navigation},'update',true))
     },
     NoteList: {
         screen: NoteList,
         path:'noteList',
-        navigationOptions:({navigation}) => StackOptions({navigation},'点滴日记',true,headerLeft({navigation},'back'))
+        navigationOptions:({navigation}) => StackOptions({navigation},'日记',true,headerLeft({navigation},'back'))
+    },
+    AddPhoto: { // diary
+        screen: AddPhoto,
+        path:'AddPhoto',
+        navigationOptions:({navigation}) => StackOptions({navigation},'回忆录',false,headerLeft({navigation},'back'),headerRight({navigation},'save'))
+    },
+    PhotoDetail: {
+        screen: PhotoDetail,
+        path:'PhotoDetail',
+        navigationOptions:({navigation}) => StackOptions({navigation},'',true,headerLeft({navigation},'back'),headerRight({navigation},'update',false))
+    },
+    PhotoList: {
+        screen: PhotoList,
+        path:'PhotoList',
+        navigationOptions:({navigation}) => StackOptions({navigation},'回忆录',true,headerLeft({navigation},'back'))
     }
+
 },{
     headerMode: 'screen',
 });
